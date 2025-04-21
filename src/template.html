@@ -3,19 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Title</title>
+  <title>Path Vision</title>
 </head>
 <body>
   <header>
-    <h1>Project Title</h1>
+    <h1>Path Vision</h1>
+    <div class="container-settings">
+      <form class="settings">
+        <div class="form-group" id="group-algorithms">
+          <label for="algorithms">Algorithm</label>
+          <select name="algorithms" id="algorithms">
+            <option value="dfs" selected>Depth First Search</option>
+            <option value="bfs">Breadth First Search</option>
+            <option value="gbfs">Greedy Best First Search</option>
+            <option value="a-star">A*</option>
+            <option value="dijkstra">Dijkstra</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="group-speed">
+          <label for="speed">Speed</label>
+          <input type="range" name="speed" id="speed" min="1" max="5" value="2">
+        </div>
+
+        <div class="form-group" id="group-helpers">
+          <button type="button" class="btn" id="btn-start">Start</button>
+          <button type="button" class="btn" id="btn-pause">Pause</button>
+          <button type="button" class="btn" id="btn-stop">Stop</button>
+        </div>
+        <div class="form-group"></div>
+      </form>
+    </div>
   </header>
 
   <main>
+    <div class="container-info" id="project">
+      <div class="color-info">
+        <label for="color-seeker">Seeker</label>
+        <div class="preview" id="color-seeker"></div>
+      </div>
+      
+      <div class="color-info">
+        <label for="color-heart-of-the-light">Heart of The Light</label>
+        <div class="preview" id="color-heart-of-the-light"></div>
+      </div>
 
+      <div class="color-info">
+        <label for="color-shadow">Shadow</label>
+        <div class="preview" id="color-shadow"></div>
+      </div>
+      
+      <div class="color-info">
+        <label for="color-glimmer">Glimmer</label>
+        <div class="preview" id="color-glimmer"></div>
+      </div>
+      
+      <div class="color-info">
+        <label for="color-guiding-light">Guiding Light</label>
+        <div class="preview" id="color-guiding-light"></div>
+      </div>
+    </div>
+    
+    <div class="container-board">
+
+    </div>
   </main>
 
   <footer>
-    <span>by <a id="github-link" href="http://github.com/Visioness">Visioness</a></span>
+    <div class="container-info" id="developer">
+      <span>by <a id="github-link" href="http://github.com/Visioness">Visioness</a></span>
+    </div>
   </footer>
 </body>
 </html>
