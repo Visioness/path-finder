@@ -1,0 +1,157 @@
+/* Variables */
+:root {
+  --background-primary: rgb(11, 12, 19);
+  --background-secondary: rgb(36, 37, 39);
+
+  --border-primary: rgba(255, 255, 255, 0.5);
+  --border-secondary: rgba(255, 255, 255, 0.2);
+
+  --primary: rgb(226, 226, 209);
+  --secondary: rgb(158, 157, 148);
+
+  --seeker: #4B3F72;
+  --hotl: #F9F871;
+  --glimmer: #F9A826;
+  --shadow: #1A1A2E;
+  --glight: #64DFDF;
+}
+
+/* CSS Reset */
+*, *::before, *::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: var(--primary);
+}
+
+ul {
+  list-style-type: none;
+}
+
+
+/* Changes */
+body {
+  height: 100vh;
+  background-color: var(--background-primary);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+header,
+footer {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+header {
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container-settings {
+  width: 100%;
+}
+
+.settings {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.form-group {
+  min-width: min-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+select,
+.btn {
+  padding: 4px 8px;
+  background-color: var(--background-secondary);
+  border: 2px solid var(--border-secondary);
+  border-radius: 8px;
+}
+
+.btn {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, 
+    background-color 0.2s ease-in-out;
+}
+
+.btn:hover {
+  position: relative;
+  background-color: var(--border-secondary);
+  transform: translateY(-5px);
+}
+
+main {
+  border-top: 4px solid var(--border-primary);
+  border-bottom: 4px solid var(--border-primary);
+  background-color: var(--background-secondary);
+  color: var(--secondary);
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+
+#color-info {
+  border-bottom: 2px solid var(--border-secondary);
+}
+
+.colors {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.color-group {
+  padding: 2px 4px;
+  width: 20%;
+  min-height: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.color-group:not(:last-child) {
+  border-right: 1px solid var(--border-secondary);
+}
+
+.color-name {
+  font-size: 0.8em;
+}
+
+.color-preview {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--border-primary);
+  border-radius: 4px;
+}
+
+.seeker {
+  background-color: var(--seeker);
+}
+
+.hotl {
+  background-color: var(--hotl);
+}
+
+.glimmer {
+  background-color: var(--glimmer);
+}
+
+.shadow {
+  background-color: var(--shadow);
+}
+
+.glight {
+  background-color: var(--glight);
+}
