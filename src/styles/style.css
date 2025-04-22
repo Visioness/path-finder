@@ -34,7 +34,7 @@ body {
   height: 100vh;
   background-color: var(--background-primary);
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: min-content 1fr min-content;
 }
 
 header,
@@ -48,6 +48,7 @@ footer {
 header {
   flex-direction: column;
   gap: 20px;
+  min-height: 100px;
 }
 
 .container-settings {
@@ -62,7 +63,6 @@ header {
 }
 
 .form-group {
-  min-width: min-content;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,16 +95,11 @@ main {
   background-color: var(--background-secondary);
   color: var(--secondary);
   display: grid;
-  grid-template-rows: auto 1fr;
-}
-
-
-#color-info {
-  border-bottom: 2px solid var(--border-secondary);
+  grid-template-rows: min-content 1fr;
 }
 
 .colors {
-  padding: 10px 20px;
+  padding: 4px 24px;
   display: flex;
   justify-content: space-around;
 }
@@ -130,7 +125,7 @@ main {
 }
 
 .color-preview {
-  width: 16px;
+  width: 48px;
   height: 16px;
   border: 1px solid var(--border-primary);
   border-radius: 4px;
@@ -154,4 +149,24 @@ main {
 
 .glight {
   background-color: var(--glight);
+}
+
+.container-board {
+  padding: 20px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.board {
+  border: 2px solid var(--border-secondary);
+  border-radius: 2px;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  gap: 1px;
+}
+
+.cell {
+  border-radius: 2px;
 }
