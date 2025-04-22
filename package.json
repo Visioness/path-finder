@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Webpack template by Visioness",
   "scripts": {
-    "start": "webpack serve --open --config webpack.dev.js",
+    "start": "webpack serve --config webpack.dev.js",
     "poststart": "echo 'Server started successfully!'",
     "build": "webpack --config webpack.prod.js",
     "clean": "rm -rf dist/"
