@@ -2,6 +2,9 @@ export default class Controller {
   constructor(model, view) {
     this.model = model;
     this.view = view;
+    this.createBoard();
+    this.algorithm = this.createPathFinder();
+    this.handleClicks();
   }
 
   createBoard() {
@@ -25,7 +28,7 @@ export default class Controller {
     this.view.drawBoard(this.board);
   }
 
-  runPathFinder() {
+  createPathFinder() {
     const pathFinder = this.model.dfs({
       board: this.board,
       start: { row: 5, column: 2 },
@@ -33,6 +36,15 @@ export default class Controller {
       onStep: (state) => this.view.updateCell(state.row, state.column, "glimmer")
     });
     
-    pathFinder.start();
+    return pathFinder;
+  }
+
+  handleClicks() {
+    this.view.handleHelperButtons(
+      () => this.algorithm.start(),
+      () => this.algorithm.pause(),
+      () => this.algorithm.resume(),
+      () => this.algorithm.stop()
+    );
   }
 }

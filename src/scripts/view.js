@@ -78,4 +78,27 @@ export default class Board {
     const cell = this.cells[`${row},${column}`];
     cell.className = `cell ${className}`;
   }
+
+  handleHelperButtons(startFunc, pauseFunc, continueFunc, stopFunc) {
+    const helpers = document.querySelector("#group-helpers");
+    const pauseButton = helpers.querySelector("#btn-pause");
+
+    helpers.addEventListener("click", (event) => {
+      if (event.target.id === "btn-start") {
+        // Start button
+        startFunc();
+      } else if (event.target.textContent === "Pause") {
+        // Pause button
+        pauseFunc();
+        event.target.textContent = "Continue";
+      } else if (event.target.textContent === "Continue") {
+        // Continue button
+        continueFunc();
+        event.target.textContent = "Pause";
+      } else if (event.target.id === "btn-stop") {
+        // Stop button
+        stopFunc();
+      }
+    });
+  }
 }
