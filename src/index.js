@@ -13,5 +13,3 @@ const algorithms = {
 }
 
 const controller = new Controller(algorithms, board);
-controller.createBoard();
-controller.runPathFinder();
