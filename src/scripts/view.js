@@ -81,7 +81,6 @@ export default class Board {
 
   handleHelperButtons(startFunc, pauseFunc, continueFunc, stopFunc) {
     const helpers = document.querySelector("#group-helpers");
-    const pauseButton = helpers.querySelector("#btn-pause");
 
     helpers.addEventListener("click", (event) => {
       if (event.target.id === "btn-start") {
