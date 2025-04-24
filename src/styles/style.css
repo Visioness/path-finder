@@ -11,9 +11,11 @@
 
   --seeker: #4B3F72;
   --hotl: #F9F871;
-  --glimmer: #F9A826;
+  --glimmer: #f9a82694;
   --shadow: #1A1A2E;
   --glight: #64DFDF;
+
+  --darkness: #11111f;
 }
 
 /* CSS Reset */
@@ -131,6 +133,29 @@ main {
   border-radius: 4px;
 }
 
+.container-board {
+  padding: 20px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.board {
+  border: 2px solid var(--border-secondary);
+  background-color: var(--darkness);
+  border-radius: 2px;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  gap: 1px;
+}
+
+.cell {
+  border-radius: 2px;
+  transition: background-color 0.7s ease-in-out,
+    border-radius 0.7s ease-in-out;
+}
+
 .seeker {
   background-color: var(--seeker);
 }
@@ -149,24 +174,4 @@ main {
 
 .glight {
   background-color: var(--glight);
-}
-
-.container-board {
-  padding: 20px 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.board {
-  border: 2px solid var(--border-secondary);
-  border-radius: 2px;
-  display: grid;
-  justify-content: center;
-  align-content: center;
-  gap: 1px;
-}
-
-.cell {
-  border-radius: 2px;
 }

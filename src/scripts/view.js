@@ -8,7 +8,7 @@ export default class Board {
     this.boardBorderWidth = 2;
     this.getContainerSize();
     this.calculateBoardSize();
-    this.drawBoard();
+    this.cells = {};
   }
   
   getContainerSize() {
@@ -40,15 +40,17 @@ export default class Board {
     return Math.floor((this.containerWidth - (this.containerPaddingHorizontal + this.boardBorderWidth) * 2) / this.cellSize);
   }
 
-  drawBoard() {
+  drawBoard(boardState) {
+    this.updateGridTemplate();
     
     for (let row = 0; row < this.rowSize; row++) {
       for (let column = 0; column < this.columnSize; column++) {
         const cell = this.createCell(row, column);
-        this.boardElement.appendChild(cell);   
+        cell.classList.add(boardState[row][column]);
+        this.boardElement.appendChild(cell);
+        this.cells[`${row},${column}`] = cell;
       }
     }
-    this.updateGridTemplate();
   }
   
   updateGridTemplate() {
@@ -57,7 +59,7 @@ export default class Board {
   }
 
   createCell(row, column) {
-    const cell = this.createElement("div", "cell shadow", `cell|${row}-${column}`);
+    const cell = this.createElement("div", "cell", `cell|${row}-${column}`);
     cell.dataset.row = row;
     cell.dataset.column = column;
 
@@ -70,5 +72,10 @@ export default class Board {
     if (id) element.id = id;
 
     return element;
+  }
+
+  updateCell(row, column, className) {
+    const cell = this.cells[`${row},${column}`];
+    cell.className = `cell ${className}`;
   }
 }

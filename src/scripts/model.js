@@ -1,11 +1,9 @@
 export default class Algorithm {
-  constructor(startPoint, endPoint) {
-    this.startPoint = startPoint;
-    this.endPoint = endPoint;
+  constructor(config) {
     this.paused = false;
     this.finished = false;
-    this.visitedNodes = [];
-    this.currentPath = []; 
+    this.onStep = config.onStep || null;
+    this.board = config.board;
   }
 
   initialize() {
@@ -14,12 +12,14 @@ export default class Algorithm {
 
   keepRunning() {
     if (!this.paused && !this.finished) {
-      this.step();
+      const solution = this.step();
+      this.finished = !!solution;
 
       if (!this.finished) {
-        requestAnimationFrame(this.keepRunning());
+        setTimeout(() => this.keepRunning(), 70);
       } else {
         console.log("The seeker has found the Heart of the Light")
+        this.stop();
       }
     }
   }
@@ -29,8 +29,6 @@ export default class Algorithm {
   }
 
   start() {
-    this.finished = false;
-    this.paused = false;
     this.initialize();
     this.keepRunning();
   }
@@ -47,11 +45,7 @@ export default class Algorithm {
   }
 
   stop() {
-    this.finished = false;
-    this.paused = false;
-  }
-
-  getPath() {
-    return this.currentPath;
+    this.finished = true;
+    this.paused = true;
   }
 }

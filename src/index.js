@@ -7,9 +7,11 @@ import DepthFirstSearch from "./scripts/dfs.js";
 
 const board = new Board();
 const algorithms = {
-  dfs: () => {
-    return new DepthFirstSearch();
+  dfs: (config) => {
+    return new DepthFirstSearch(config);
   }
 }
 
 const controller = new Controller(algorithms, board);
+controller.createBoard();
+controller.runPathFinder();
