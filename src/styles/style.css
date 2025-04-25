@@ -73,6 +73,9 @@ header {
 
 select,
 .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 4px 8px;
   background-color: var(--background-secondary);
   border: 2px solid var(--border-secondary);
@@ -80,15 +83,21 @@ select,
 }
 
 .btn {
-  cursor: pointer;
+  position: relative;
+  background-color: var(--shadow);
   transition: transform 0.2s ease-in-out, 
-    background-color 0.2s ease-in-out;
+  background-color 0.2s ease-in-out;
+  cursor: pointer;
 }
 
 .btn:hover {
-  position: relative;
-  background-color: var(--border-secondary);
   transform: translateY(-5px);
+}
+
+.btn:disabled {
+  background-color: var(--border-secondary);
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 main {

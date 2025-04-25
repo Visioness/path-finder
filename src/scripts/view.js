@@ -1,3 +1,6 @@
+import pauseSvg from "../styles/images/pause.svg";
+import continueSvg from "../styles/images/resume.svg";
+
 export default class Board {
   constructor() {
     this.boardContainer = document.querySelector(".container-board");
@@ -79,24 +82,45 @@ export default class Board {
     cell.className = `cell ${className}`;
   }
 
-  handleHelperButtons(startFunc, pauseFunc, continueFunc, stopFunc) {
+  handleHelperButtons(startFunc, stepForwardFunc, pauseFunc, continueFunc, stopFunc) {
     const helpers = document.querySelector("#group-helpers");
-
+    const startButton = helpers.querySelector("#btn-start");
+    const pauseButton = helpers.querySelector("#btn-pause");
+    const stopButton = helpers.querySelector("#btn-stop");
+    pauseButton.disabled = true;
+    stopButton.disabled = true;
+    
     helpers.addEventListener("click", (event) => {
-      if (event.target.id === "btn-start") {
-        // Start button
-        startFunc();
-      } else if (event.target.textContent === "Pause") {
-        // Pause button
-        pauseFunc();
-        event.target.textContent = "Continue";
-      } else if (event.target.textContent === "Continue") {
-        // Continue button
-        continueFunc();
-        event.target.textContent = "Pause";
-      } else if (event.target.id === "btn-stop") {
-        // Stop button
-        stopFunc();
+      const button = event.target.closest(".btn");
+      
+      if (button) {
+        if (button.id === "btn-start") {
+          // Start button
+          button.disabled = true;
+          pauseButton.disabled = false;
+          stopButton.disabled = false;
+          startFunc();
+        } else if (button.id === "btn-step") {
+          // Step Forward
+          stepForwardFunc();
+        } else if (button.classList.contains("pause")) {
+          // Pause button
+          button.classList.remove("pause");
+          button.classList.add("continue");
+          button.innerHTML = `<img width="24" height="24" src="${continueSvg}" alt="Continue Button">`;
+          pauseFunc();
+        } else if (button.classList.contains("continue")) {
+          // Continue button
+          button.classList.remove("continue");
+          button.classList.add("pause");
+          button.innerHTML = `<img width="24" height="24" src="${pauseSvg}" alt="Pause Button">`;
+          continueFunc();
+        } else if (button.id === "btn-stop") {
+          // Stop button
+          pauseButton.disabled = true;
+          stopButton.disabled = true;
+          stopFunc();
+        }
       }
     });
   }

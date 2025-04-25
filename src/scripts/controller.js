@@ -2,8 +2,11 @@ export default class Controller {
   constructor(model, view) {
     this.model = model;
     this.view = view;
+    this.setup();
+  }
+  
+  setup() {
     this.createBoard();
-    this.algorithm = this.createPathFinder();
     this.handleClicks();
   }
 
@@ -41,10 +44,43 @@ export default class Controller {
 
   handleClicks() {
     this.view.handleHelperButtons(
-      () => this.algorithm.start(),
-      () => this.algorithm.pause(),
-      () => this.algorithm.resume(),
-      () => this.algorithm.stop()
+      () => this.start(),
+      () => this.stepForward(),
+      () => this.pause(),
+      () => this.resume(),
+      () => this.stop()
     );
+  }
+
+
+  start() {
+    this.algorithm = this.createPathFinder();
+    this.algorithm.start();
+  }
+
+  stepForward() {
+    if (typeof this.algorithm === "undefined") {
+      this.algorithm = this.createPathFinder();
+      this.algorithm.initialize();
+    }
+
+    if(!this.algorithm.finished) {
+      const solution = this.algorithm.step();
+      this.algorithm.finished = !!solution;
+    } else {
+      this.algorithm.stop();
+    }
+  }
+
+  pause() {
+    this.algorithm.pause();
+  }
+
+  resume() {
+    this.algorithm.resume();
+  }
+
+  stop() {
+    this.algorithm.stop();
   }
 }

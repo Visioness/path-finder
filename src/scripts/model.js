@@ -9,6 +9,10 @@ export default class Algorithm {
   initialize() {
     // Basic setup for each algorithm
   }
+  
+  step () {
+    // Main step for each algorithm
+  }
 
   keepRunning() {
     if (!this.paused && !this.finished) {
@@ -22,10 +26,6 @@ export default class Algorithm {
         this.stop();
       }
     }
-  }
-
-  step () {
-    // Main step for each algorithm
   }
 
   start() {
@@ -45,6 +45,7 @@ export default class Algorithm {
   }
 
   stop() {
+    // TODO: Fix board resetting
     this.finished = true;
     this.paused = true;
   }
