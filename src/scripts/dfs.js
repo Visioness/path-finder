@@ -21,47 +21,50 @@ export default class DepthFirstSearch extends Algorithm {
   }
   
   initialize() {
+    this.data = {
+      currentState: null,
+      solution: null,
+    }
     this.explored = new Set();
     this.frontier = new Stack();
     this.frontier.push(this.startNode);
   }
 
   step() {
-    if (this.frontier.isEmpty()) return null;
+    if (this.frontier.isEmpty()) {
+      this.data.currentState = null;
+      return this.data;
+    };
   
     let node = this.frontier.pop();
+    this.data.currentState = { row: node.state.row, column: node.state.column };
   
     if (node.state.row === this.endState.row && node.state.column === this.endState.column) {   
-      return this.getSolution(node);
+      this.data.solution = this.getSolution(node);
+      return this.data;
     }
   
     this.explored.add(this.getExploredKey(node.state));
     this.addNeighborsToFrontier(node);
 
-    // Render step
-    this.board[node.state.row][node.state.column] = "glimmer";
-    this.onStep(node.state);
+    return this.data;
   }
 
   getSolution(node) {
     const actions = [];
-    const cells = [];
+    const states = [];
 
     while (node.parent !== null) {
       actions.push(node.action);
-      cells.push(node.state);
+      states.push(node.state);
       node = node.parent;
     }
+    actions.push(node.action);
+    states.push(node.state);
 
     actions.reverse();
-    cells.reverse();
-    const solution = { actions, cells };
-
-    // Render path
-    cells.forEach(state => {
-      this.board[state.row][state.column] = "glight";
-      this.onSolution(state);
-    });
+    states.reverse();
+    const solution = { actions, states };
 
     return solution;
   }

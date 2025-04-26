@@ -15,6 +15,10 @@ export default class Controller {
     this.setup();
   }
   
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   setup() {
     this.view.setup();
     this.createBoard();
@@ -74,16 +78,28 @@ export default class Controller {
   }
 
   runAlgorithm() {
-    if (!this.paused && !this.finished) {
-      const solution = this.algorithm.step();
-      this.finished = !!solution;
+    const data = this.algorithm.step();
+    // Render step
+    this.board[data.currentState.row][data.currentState.column] = "glimmer";
+    this.view.updateCell(data.currentState.row, data.currentState.column, "glimmer");
+    this.finished = !!data.solution;
+    
+    if (!this.finished) {
+      if (!this.paused) setTimeout(() => this.runAlgorithm(), 50);
+    } else {
+      console.log("The seeker has found the Heart of the Light");
       
-      if (!this.finished) {
-        setTimeout(() => this.runAlgorithm(), 70);
-      } else {
-        console.log("The seeker has found the Heart of the Light");
+      // IIFE async function to use sleep
+      (async () => {
+        for(const state of data.solution.states) {
+          this.board[state.row][state.column] = "glight";
+          this.view.updateCell(state.row, state.column, "glight");
+          await this.sleep(30);
+        }
+
+        await this.sleep(2000);
         this.stop();
-      }
+      })();
     }
   }
   
@@ -108,10 +124,7 @@ export default class Controller {
     }
 
     if (!this.finished) {
-      solution = this.algorithm.step();
-      this.finished = !!solution;
-    } else {
-      this.stop();
+      this.runAlgorithm();
     }
   }
 
@@ -133,9 +146,7 @@ export default class Controller {
     this.view.updateUIState(this.started, this.paused, this.finished);
 
     console.log("Resetting the board...");
-    setTimeout(() => {
-      this.resetAll();
-      this.setup();
-    }, 5000);
+    this.resetAll();
+    this.setup();
   }
 }
