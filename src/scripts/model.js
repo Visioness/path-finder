@@ -1,6 +1,7 @@
 export default class Algorithm {
   constructor(config) {
     this.onStep = config.onStep || null;
+    this.onSolution = config.onSolution || null;
     this.board = config.board;
   }
 

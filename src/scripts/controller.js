@@ -7,7 +7,7 @@ export default class Controller {
     this.view = view;
     this.startRow = 2;
     this.startColumn = 2;
-    this.endRow = 10;
+    this.endRow = 3;
     this.endColumn = 10;
     this.paused = false;
     this.finished = false;
@@ -56,7 +56,8 @@ export default class Controller {
       board: this.board,
       start: { row: this.startRow, column: this.startColumn },
       end: { row: this.endRow, column: this.endColumn },
-      onStep: (state) => this.view.updateCell(state.row, state.column, "glimmer")
+      onStep: (state) => this.view.updateCell(state.row, state.column, "glimmer"),
+      onSolution: (state) => this.view.updateCell(state.row, state.column, "glight")
     });
     
     return pathFinder;
@@ -107,7 +108,7 @@ export default class Controller {
     }
 
     if (!this.finished) {
-      const solution = this.algorithm.step();
+      solution = this.algorithm.step();
       this.finished = !!solution;
     } else {
       this.stop();
@@ -135,6 +136,6 @@ export default class Controller {
     setTimeout(() => {
       this.resetAll();
       this.setup();
-    }, 100);
+    }, 5000);
   }
 }

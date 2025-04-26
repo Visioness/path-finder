@@ -60,6 +60,7 @@ export default class DepthFirstSearch extends Algorithm {
     // Render path
     cells.forEach(state => {
       this.board[state.row][state.column] = "glight";
+      this.onSolution(state);
     });
 
     return solution;
