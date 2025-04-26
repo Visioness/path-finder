@@ -3,20 +3,33 @@ import continueSvg from "../styles/images/resume.svg";
 
 export default class Board {
   constructor() {
-    this.boardContainer = document.querySelector(".container-board");
-    this.boardElement = this.boardContainer.querySelector(".board");
     this.cellSize = 36;
-    this.containerPaddingVertical = 20;
-    this.containerPaddingHorizontal = 10;
-    this.boardBorderWidth = 2;
-    this.getContainerSize();
-    this.calculateBoardSize();
-    this.cells = {};
+    this.padY = 20;
+    this.padX = 10;
+    this.borderWidth = 2;
+    this.elements = {};
+    this.elements.cells = {};
+    this.elements.container = document.querySelector(".container-board");
+    this.elements.board = this.elements.container.querySelector(".board");
   }
   
+  setup() {
+    this.getContainerSize();
+    this.calculateBoardSize();
+  }
+
+  resetBoard() {
+    this.elements.cells = {};
+    this.clearBoard();
+  }
+
+  clearBoard() {
+    this.elements.board.innerHTML = "";
+  }
+
   getContainerSize() {
-    this.containerWidth = window.getComputedStyle(this.boardContainer).width;
-    this.containerHeight = window.getComputedStyle(this.boardContainer).height;
+    this.containerWidth = window.getComputedStyle(this.elements.container).width;
+    this.containerHeight = window.getComputedStyle(this.elements.container).height;
     
     this.containerWidth = Number(this.containerWidth.slice(0, -2));
     this.containerHeight = Number(this.containerHeight.slice(0, -2));
@@ -29,18 +42,18 @@ export default class Board {
     this.boardWidth = this.columnSize * this.cellSize
     this.boardHeight = this.rowSize * this.cellSize
 
-    this.boardElement.style.width = this.boardWidth;
-    this.boardElement.style.height = this.boardHeight;
+    this.elements.board.style.width = this.boardWidth;
+    this.elements.board.style.height = this.boardHeight;
   }
 
   calculateRowSize() {
     // Padding and border included
-    return Math.floor((this.containerHeight - (this.containerPaddingVertical + this.boardBorderWidth) * 2) / this.cellSize);
+    return Math.floor((this.containerHeight - (this.padY + this.borderWidth) * 2) / this.cellSize);
   }
   
   calculateColumnSize() {
     // Padding and border included
-    return Math.floor((this.containerWidth - (this.containerPaddingHorizontal + this.boardBorderWidth) * 2) / this.cellSize);
+    return Math.floor((this.containerWidth - (this.padX + this.borderWidth) * 2) / this.cellSize);
   }
 
   drawBoard(boardState) {
@@ -50,15 +63,15 @@ export default class Board {
       for (let column = 0; column < this.columnSize; column++) {
         const cell = this.createCell(row, column);
         cell.classList.add(boardState[row][column]);
-        this.boardElement.appendChild(cell);
-        this.cells[`${row},${column}`] = cell;
+        this.elements.board.appendChild(cell);
+        this.elements.cells[`${row},${column}`] = cell;
       }
     }
   }
-  
+
   updateGridTemplate() {
-    this.boardElement.style.gridTemplateRows = `repeat(${this.rowSize}, minmax(${this.cellSize / 3 * 2}px, ${this.cellSize}px)`;
-    this.boardElement.style.gridTemplateColumns = `repeat(${this.columnSize}, minmax(${this.cellSize / 3 * 2}px, ${this.cellSize}px)`;
+    this.elements.board.style.gridTemplateRows = `repeat(${this.rowSize}, minmax(${this.cellSize / 3 * 2}px, ${this.cellSize}px)`;
+    this.elements.board.style.gridTemplateColumns = `repeat(${this.columnSize}, minmax(${this.cellSize / 3 * 2}px, ${this.cellSize}px)`;
   }
 
   createCell(row, column) {
@@ -78,50 +91,96 @@ export default class Board {
   }
 
   updateCell(row, column, className) {
-    const cell = this.cells[`${row},${column}`];
+    const cell = this.elements.cells[`${row},${column}`];
     cell.className = `cell ${className}`;
   }
 
   handleHelperButtons(startFunc, stepForwardFunc, pauseFunc, continueFunc, stopFunc) {
-    const helpers = document.querySelector("#group-helpers");
-    const startButton = helpers.querySelector("#btn-start");
-    const pauseButton = helpers.querySelector("#btn-pause");
-    const stopButton = helpers.querySelector("#btn-stop");
-    pauseButton.disabled = true;
-    stopButton.disabled = true;
+    // Remove previous event listeners if they exist
+    if (this.clickHandler) {
+      this.elements.helpers.removeEventListener("click", this.clickHandler);
+    }
     
-    helpers.addEventListener("click", (event) => {
+    this.elements.helpers = document.querySelector("#group-helpers");
+    this.elements.helpers.start = this.elements.helpers.querySelector("#btn-start");
+    this.elements.helpers.step = this.elements.helpers.querySelector("#btn-step");
+    this.elements.helpers.pause = this.elements.helpers.querySelector("#btn-pause");
+    this.elements.helpers.stop = this.elements.helpers.querySelector("#btn-stop");
+    this.elements.helpers.pause.disabled = true;
+    this.elements.helpers.stop.disabled = true;
+    
+    // Store the handler function so we can remove it later
+    this.clickHandler = (event) => {
       const button = event.target.closest(".btn");
       
       if (button) {
         if (button.id === "btn-start") {
-          // Start button
-          button.disabled = true;
-          pauseButton.disabled = false;
-          stopButton.disabled = false;
           startFunc();
         } else if (button.id === "btn-step") {
-          // Step Forward
           stepForwardFunc();
         } else if (button.classList.contains("pause")) {
-          // Pause button
-          button.classList.remove("pause");
-          button.classList.add("continue");
-          button.innerHTML = `<img width="24" height="24" src="${continueSvg}" alt="Continue Button">`;
           pauseFunc();
         } else if (button.classList.contains("continue")) {
-          // Continue button
-          button.classList.remove("continue");
-          button.classList.add("pause");
-          button.innerHTML = `<img width="24" height="24" src="${pauseSvg}" alt="Pause Button">`;
           continueFunc();
         } else if (button.id === "btn-stop") {
-          // Stop button
-          pauseButton.disabled = true;
-          stopButton.disabled = true;
           stopFunc();
         }
       }
-    });
+    };
+    
+    this.elements.helpers.addEventListener("click", this.clickHandler);
+  }
+
+  updateUIState(startedState, pausedState, finishedState) {
+    const helpers = this.elements.helpers;
+
+    let state;
+    if (!startedState) {
+      state = "idle";
+    } else if (finishedState) {
+      state = "finished";
+    } else if (pausedState) {
+      state = "paused";
+    } else {
+      state = "running";
+    }
+
+    switch (state) {
+      case "idle":
+        helpers.start.disabled = false;
+        helpers.step.disabled = false;
+        helpers.pause.disabled = true;
+        helpers.stop.disabled = true;
+        break;
+        
+      case "running":
+        helpers.start.disabled = true;
+        helpers.step.disabled = true;
+        helpers.pause.disabled = false;
+        helpers.stop.disabled = false;
+        
+        helpers.pause.classList.remove("continue");
+        helpers.pause.classList.add("pause");
+        helpers.pause.innerHTML = `<img width="24" height="24" src="${pauseSvg}" alt="Pause Button">`;
+        break;
+        
+      case "paused":
+        helpers.start.disabled = true;
+        helpers.step.disabled = false;
+        helpers.pause.disabled = false;
+        helpers.stop.disabled = false;
+        
+        helpers.pause.classList.remove("pause");
+        helpers.pause.classList.add("continue");
+        helpers.pause.innerHTML = `<img width="24" height="24" src="${continueSvg}" alt="Continue Button">`;
+        break;
+        
+      case "finished":
+        helpers.start.disabled = true;
+        helpers.step.disabled = true;
+        helpers.pause.disabled = true;
+        helpers.stop.disabled = false;
+        break;
+    }
   }
 }
