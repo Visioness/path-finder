@@ -1,6 +1,3 @@
-import continueSvg from "../styles/images/resume.svg";
-import pauseSvg from "../styles/images/pause.svg";
-
 export default class Controller {
   constructor(model, view) {
     this.model = model;
@@ -59,9 +56,7 @@ export default class Controller {
     const pathFinder = this.model.dfs({
       board: this.board,
       start: { row: this.startRow, column: this.startColumn },
-      end: { row: this.endRow, column: this.endColumn },
-      onStep: (state) => this.view.updateCell(state.row, state.column, "glimmer"),
-      onSolution: (state) => this.view.updateCell(state.row, state.column, "glight")
+      end: { row: this.endRow, column: this.endColumn }
     });
     
     return pathFinder;
