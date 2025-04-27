@@ -62,7 +62,13 @@ export default class Board {
     for (let row = 0; row < this.rowSize; row++) {
       for (let column = 0; column < this.columnSize; column++) {
         const cell = this.createCell(row, column);
-        cell.classList.add(boardState[row][column]);
+        const state = boardState[row][column];
+
+        if (state === "seeker" || state === "hotl") {
+          const child = this.createElement("div", state, state);
+          cell.appendChild(child);
+        }
+
         this.elements.board.appendChild(cell);
         this.elements.cells[`${row},${column}`] = cell;
       }
@@ -75,7 +81,7 @@ export default class Board {
   }
 
   createCell(row, column) {
-    const cell = this.createElement("div", "cell", `cell|${row}-${column}`);
+    const cell = this.createElement("div", "cell shadow", `cell|${row}-${column}`);
     cell.dataset.row = row;
     cell.dataset.column = column;
 

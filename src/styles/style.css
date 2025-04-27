@@ -10,8 +10,8 @@
   --secondary: rgb(158, 157, 148);
 
   --seeker: #4B3F72;
-  --hotl: #F9F871;
-  --glimmer: #f9a82694;
+  --hotl: #7ecc89;
+  --glimmer: #e9c282;
   --shadow: #1A1A2E;
   --glight: #64DFDF;
 
@@ -29,7 +29,6 @@
 ul {
   list-style-type: none;
 }
-
 
 /* Changes */
 body {
@@ -142,6 +141,7 @@ main {
   border-radius: 4px;
 }
 
+/* Board Styles */
 .container-board {
   padding: 20px 10px;
   display: flex;
@@ -161,16 +161,8 @@ main {
 
 .cell {
   border-radius: 2px;
-  transition: background-color 0.7s ease-in-out,
-    border-radius 0.7s ease-in-out;
-}
-
-.seeker {
-  background-color: var(--seeker);
-}
-
-.hotl {
-  background-color: var(--hotl);
+  transition: background-color 0.5s ease-in-out,
+    border-radius 0.5s ease-in-out;
 }
 
 .glimmer {
@@ -183,4 +175,23 @@ main {
 
 .glight {
   background-color: var(--glight);
+}
+
+.cell .seeker, .cell .hotl {
+  position: relative;
+  width: 70%;
+  height: 70%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid var(--border-secondary);
+}
+
+.seeker {
+  background-color: var(--seeker);
+}
+
+.hotl {
+  background-color: var(--hotl);
 }
