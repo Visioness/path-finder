@@ -87,9 +87,9 @@ export default class DepthFirstSearch extends Algorithm {
   getNeighbors(node) {
     const neighbors = {
       top: null,
+      right: null,
       bottom: null,
-      left: null,
-      right: null
+      left: null
     }
     
     const { row, column } = node.state;

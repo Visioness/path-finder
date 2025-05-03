@@ -9,17 +9,19 @@
   --primary: rgb(226, 226, 209);
   --secondary: rgb(158, 157, 148);
 
-  --seeker: #4B3F72;
+  --seeker: #4b3f72;
   --hotl: #7ecc89;
   --glimmer: #e9c282;
-  --shadow: #1A1A2E;
-  --glight: #64DFDF;
+  --shadow: #1a1a2e;
+  --glight: #64dfdf;
 
   --darkness: #11111f;
 }
 
 /* CSS Reset */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -35,21 +37,32 @@ body {
   height: 100vh;
   background-color: var(--background-primary);
   display: grid;
-  grid-template-rows: min-content 1fr min-content;
+  grid-template-rows: auto 1fr auto;
 }
 
 header,
 footer {
+  position: sticky;
   padding: 10px 20px;
   display: flex;
   justify-content: space-around;
+  background-color: var(--background-primary);
   align-items: center;
 }
 
 header {
+  top: 0;
+  z-index: 2;
   flex-direction: column;
   gap: 20px;
-  min-height: 100px;
+  min-height: min-content;
+  border-bottom: 4px solid var(--border-primary);
+}
+
+footer {
+  bottom: 0;
+  z-index: 2;
+  border-top: 4px solid var(--border-primary);
 }
 
 .container-settings {
@@ -84,8 +97,7 @@ select,
 .btn {
   position: relative;
   background-color: var(--shadow);
-  transition: transform 0.2s ease-in-out, 
-  background-color 0.2s ease-in-out;
+  /* transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; */
   cursor: pointer;
 }
 
@@ -100,11 +112,10 @@ select,
 }
 
 main {
-  border-top: 4px solid var(--border-primary);
-  border-bottom: 4px solid var(--border-primary);
   background-color: var(--background-secondary);
   color: var(--secondary);
   display: grid;
+  min-height: 600px;
   grid-template-rows: min-content 1fr;
 }
 
@@ -147,13 +158,19 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 500px;
+  min-height: 500px;
 }
 
 .board {
   border: 2px solid var(--border-secondary);
   background-color: var(--darkness);
   border-radius: 2px;
+  width: calc(100% - 10px);
+  height: calc(100% - 20px);
   display: grid;
+  grid-template-columns: repeat(15, 36px);
+  grid-template-rows: repeat(15, 36px);
   justify-content: center;
   align-content: center;
   gap: 1px;
@@ -161,8 +178,7 @@ main {
 
 .cell {
   border-radius: 2px;
-  transition: background-color 0.5s ease-in-out,
-    border-radius 0.5s ease-in-out;
+  transition: background-color 0.5s ease-in-out, border-radius 0.5s ease-in-out;
 }
 
 .glimmer {
@@ -177,21 +193,39 @@ main {
   background-color: var(--glight);
 }
 
-.cell .seeker, .cell .hotl {
+.draggable {
   position: relative;
-  width: 70%;
-  height: 70%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  border: 2px solid var(--border-secondary);
+  width: 100%;
+  height: 100%;
 }
 
-.seeker {
+.draggable::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  border: 2px solid var(--border-secondary);
+  animation: scale-up 0.3s ease-in-out forwards;
+}
+
+.seeker::after {
   background-color: var(--seeker);
 }
 
-.hotl {
+.hotl::after {
   background-color: var(--hotl);
+}
+
+@keyframes scale-up {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(0.7);
+  }
 }

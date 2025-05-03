@@ -9,7 +9,10 @@ const board = new Board();
 const algorithms = {
   dfs: (config) => {
     return new DepthFirstSearch(config);
-  }
-}
+  },
+};
 
 const controller = new Controller(algorithms, board);
+window.addEventListener("load", () => {
+  controller.setup();
+});

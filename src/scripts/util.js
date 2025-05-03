@@ -71,7 +71,10 @@ class Stack {
   }
 
   containsState(state) {
-    return this.frontier.some(value => value.row === state.row && value.column === state.column);
+    return this.frontier.some(node => 
+      node.state.row === state.row &&
+      node.state.column === state.column
+    );
   }
 
   isEmpty() {return this.frontier.length === 0;}

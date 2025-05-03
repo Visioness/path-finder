@@ -1,84 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Path Vision</title>
-</head>
-<body>
-  <header>
-    <h1>Path Vision</h1>
-    <div class="container-settings">
-      <form class="settings">
-        <div class="form-group" id="group-algorithms">
-          <label for="algorithms">Algorithm</label>
-          <select name="algorithms" id="algorithms">
-            <option value="dfs" selected>Depth First Search</option>
-          </select>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Path Vision</title>
+  </head>
+  <body>
+    <header>
+      <h1>Path Vision</h1>
+      <div class="container-settings">
+        <form class="settings">
+          <div class="form-group" id="group-algorithms">
+            <label for="algorithms">Algorithm</label>
+            <select name="algorithms" id="algorithms">
+              <option value="dfs" selected>Depth First Search</option>
+            </select>
+          </div>
 
-        <div class="form-group" id="group-speed">
-          <label for="speed">Speed</label>
-          <input type="range" name="speed" id="speed" min="1" max="5" value="2">
-        </div>
+          <div class="form-group" id="group-speed">
+            <label for="speed">Speed</label>
+            <input
+              type="range"
+              name="speed"
+              id="speed"
+              min="1"
+              max="5"
+              value="2"
+            />
+          </div>
 
-        <div class="form-group" id="group-helpers">
-          <button type="button" class="btn start" id="btn-start">
-            <img src="./styles/images/play.svg" alt="Start Button">
-          </button>
-          <button type="button" class="btn step" id="btn-step">
-            <img src="./styles/images/stepForward.svg" alt="Step Forward Button">
-          </button>
-          <button type="button" class="btn pause" id="btn-pause">
-            <img src="./styles/images/pause.svg" alt="Pause Button">
-          </button>
-          <button type="button" class="btn stop" id="btn-stop">
-            <img src="./styles/images/stop.svg" alt="Stop Button">
-          </button>
-        </div>
-      </form>
-    </div>
-  </header>
+          <div class="form-group" id="group-helpers">
+            <button type="button" class="btn start" id="btn-start">
+              <img
+                width="24"
+                height="24"
+                src="./styles/images/play.svg"
+                alt="Start Button"
+              />
+            </button>
+            <button type="button" class="btn step" id="btn-step">
+              <img
+                width="24"
+                height="24"
+                src="./styles/images/stepForward.svg"
+                alt="Step Forward Button"
+              />
+            </button>
+            <button type="button" class="btn pause" id="btn-pause">
+              <img
+                width="24"
+                height="24"
+                src="./styles/images/pause.svg"
+                alt="Pause Button"
+              />
+            </button>
+            <button type="button" class="btn stop" id="btn-stop">
+              <img
+                width="24"
+                height="24"
+                src="./styles/images/stop.svg"
+                alt="Stop Button"
+              />
+            </button>
+          </div>
+        </form>
+      </div>
+    </header>
 
-  <main>
-    <div class="container-info" id="color-info">
-      <ul class="colors">
-        <li class="color-group">
-          <label class="color-name" for="color-seeker">Seeker</label>
-          <div class="color-preview seeker" id="color-seeker"></div>
-        </li>
+    <main>
+      <div class="container-info" id="color-info">
+        <ul class="colors">
+          <li class="color-group">
+            <label class="color-name" for="color-seeker">Seeker</label>
+            <div class="color-preview seeker" id="color-seeker"></div>
+          </li>
 
-        <li class="color-group">
-          <label class="color-name" for="color-hotl">Heart of The Light</label>
-          <div class="color-preview hotl" id="color-hotl"></div>
-        </li>
+          <li class="color-group">
+            <label class="color-name" for="color-hotl">
+              Heart of The Light
+            </label>
+            <div class="color-preview hotl" id="color-hotl"></div>
+          </li>
 
-        <li class="color-group">
-          <label class="color-name" for="color-shadow">Shadow</label>
-          <div class="color-preview shadow" id="color-shadow"></div>
-        </li>
-        
-        <li class="color-group">
-          <label class="color-name" for="color-glimmer">Glimmer</label>
-          <div class="color-preview glimmer" id="color-glimmer"></div>
-        </li>
-        
-        <li class="color-group">
-          <label class="color-name" for="color-glight">Guiding Light</label>
-          <div class="color-preview glight" id="color-glight"></div>
-        </li>
-      </ul>
-    </div>
-    
-    <div class="container-board">
-      <div class="board"></div>
-    </div>
-  </main>
+          <li class="color-group">
+            <label class="color-name" for="color-shadow">Shadow</label>
+            <div class="color-preview shadow" id="color-shadow"></div>
+          </li>
 
-  <footer>
-    <div class="container-info" id="developer-info">
-      <span>by <a id="github-link" href="http://github.com/Visioness">Visioness</a></span>
-    </div>
-  </footer>
-</body>
+          <li class="color-group">
+            <label class="color-name" for="color-glimmer">Glimmer</label>
+            <div class="color-preview glimmer" id="color-glimmer"></div>
+          </li>
+
+          <li class="color-group">
+            <label class="color-name" for="color-glight">Guiding Light</label>
+            <div class="color-preview glight" id="color-glight"></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="container-board">
+        <div class="board"></div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container-info" id="developer-info">
+        <span>
+          by
+          <a id="github-link" href="http://github.com/Visioness">Visioness</a>
+        </span>
+      </div>
+    </footer>
+  </body>
 </html>
