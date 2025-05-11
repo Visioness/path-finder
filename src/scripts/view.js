@@ -11,6 +11,9 @@ export default class Board {
     this.elements.cells = {};
     this.elements.container = document.querySelector(".container-board");
     this.elements.board = this.elements.container.querySelector(".board");
+    this.elements.form = document.querySelector(".settings");
+    this.elements.delay = this.elements.form.querySelector("#delay");
+    this.elements.algorithm = this.elements.form.querySelector("#algorithms");
   }
 
   setup() {
@@ -118,6 +121,14 @@ export default class Board {
   updateCell(row, column, className) {
     const cell = this.elements.cells[`${row},${column}`];
     cell.className = `cell ${className}`;
+  }
+
+  getAlgorithm() {
+    return this.elements.algorithm.value;
+  }
+
+  getDelay() {
+    return parseInt(this.elements.delay.value);
   }
 
   handleHelperButtons(

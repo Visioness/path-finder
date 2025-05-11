@@ -1,4 +1,12 @@
 class Node {
+  constructor(state, parent, action) {
+    this.state = state;
+    this.parent = parent;
+    this.action = action;
+  }
+}
+
+class LinkedListNode {
   constructor(value) {
     this.value = value;
     this.next = null;
@@ -14,7 +22,7 @@ class LinkedList {
   }
 
   append(value) {
-    const newNode = new Node(value);
+    const newNode = new LinkedListNode(value);
     
     if (this.head === null) {
       this.head = newNode;
@@ -50,6 +58,8 @@ class LinkedList {
       return item.value;
     }
   }
+
+  isEmpty() {return this.size === 0;}
 }
 
 
@@ -85,10 +95,41 @@ class Stack {
 
 class Queue {
   constructor() {
+    this.frontier = [];
+  }
+  
+  enqueue(item) {
+    this.frontier.push(item);
+  }
+
+  dequeue() {
+    if (this.isEmpty()) throw new Error("No items in the Queue.");
+    return this.frontier.shift();
+  }
+
+  containsState(state) {
+    return this.frontier.some(node => 
+      node.state.row === state.row &&
+      node.state.column === state.column
+    );
+  }
+
+  isEmpty() {
+    return this.frontier.length === 0;
+  }
+
+  size() {
+    return this.frontier.length;
+  }
+}
+
+
+class QueueOptimized {
+  constructor() {
     this.frontier = new LinkedList();
   }
 
-  enqueue(item) {this.frontier.add(item);}
+  enqueue(item) {this.frontier.append(item);}
 
   dequeue() {
     if (this.isEmpty()) throw new Error("No items in the Queue.");
@@ -111,4 +152,4 @@ class Queue {
 }
 
 
-export { Stack }; 
+export { Node, Stack, Queue }; 

@@ -9,6 +9,7 @@ export default class Controller {
     this.paused = false;
     this.finished = false;
     this.started = false;
+    this.delay = 40;
   }
 
   sleep(ms) {
@@ -18,9 +19,13 @@ export default class Controller {
   setup() {
     this.view.setup();
     this.createBoard();
-    this.handleClicks();
+    
+    this.handleClicks(); 
     this.view.handleDrag((elementType, newRow, newColumn) => {
       this.updateElementPosition(elementType, newRow, newColumn);
+    });
+    this.view.elements.delay.addEventListener("change", () => {
+      this.updateDelay();
     });
 
     this.started = false;
@@ -53,9 +58,16 @@ export default class Controller {
 
     this.view.drawBoard(this.board);
   }
-
+  
+  updateDelay() {
+    this.delay = this.view.getDelay();
+  }
+  
   createPathFinder() {
-    const pathFinder = this.model.dfs({
+    const algorithm = this.view.getAlgorithm();
+    this.updateDelay();
+
+    const pathFinder = this.model[algorithm]({
       board: this.board,
       start: { row: this.startRow, column: this.startColumn },
       end: { row: this.endRow, column: this.endColumn },
@@ -86,7 +98,7 @@ export default class Controller {
     this.finished = !!data.solution;
 
     if (!this.finished) {
-      if (!this.paused) setTimeout(() => this.runAlgorithm(), 40);
+      if (!this.paused) setTimeout(() => this.runAlgorithm(), this.delay);
     } else {
       console.log("The seeker has found the Heart of the Light");
 
@@ -95,7 +107,7 @@ export default class Controller {
         for (const state of data.solution.states) {
           this.board[state.row][state.column] = "glight";
           this.view.updateCell(state.row, state.column, "glight");
-          await this.sleep(20);
+          await this.sleep(this.delay);
         }
 
         await this.sleep(5000);
@@ -139,6 +151,7 @@ export default class Controller {
       this.paused = false;
       this.view.updateUIState(this.started, this.paused, this.finished);
       this.runAlgorithm();
+      this.updateDelay();
     }
   }
 

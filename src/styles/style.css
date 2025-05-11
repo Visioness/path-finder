@@ -97,7 +97,7 @@ select,
 .btn {
   position: relative;
   background-color: var(--shadow);
-  /* transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; */
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
   cursor: pointer;
 }
 
@@ -191,6 +191,14 @@ main {
 
 .glight {
   background-color: var(--glight);
+}
+
+.color-preview.seeker {
+  background-color: var(--seeker);
+}
+
+.color-preview.hotl {
+  background-color: var(--hotl);
 }
 
 .draggable {

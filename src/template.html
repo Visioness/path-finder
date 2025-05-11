@@ -14,18 +14,20 @@
             <label for="algorithms">Algorithm</label>
             <select name="algorithms" id="algorithms">
               <option value="dfs" selected>Depth First Search</option>
+              <option value="bfs">Breadth First Search</option>
             </select>
           </div>
 
-          <div class="form-group" id="group-speed">
-            <label for="speed">Speed</label>
+          <div class="form-group" id="group-delay">
+            <label for="delay">Delay</label>
             <input
               type="range"
-              name="speed"
-              id="speed"
-              min="1"
-              max="5"
-              value="2"
+              name="delay"
+              id="delay"
+              min="20"
+              max="120"
+              value="60"
+              step="20"
             />
           </div>
 

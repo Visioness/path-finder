@@ -1,39 +1,41 @@
 import Algorithm from "./model.js";
-import { Node, Stack } from "./util.js";
+import { Node, Queue } from "./util.js";
 
-export default class DepthFirstSearch extends Algorithm {
+
+export default class BreadthFirstSearch extends Algorithm {
   constructor(config) {
     super(config);
     const { start, end } = config;
-
+    
     this.startNode = new Node(start, null, null);
     this.endState = end;
   }
-  
+
   initialize() {
     this.data = {
       currentState: null,
       solution: null,
     }
+   
     this.explored = new Set();
-    this.frontier = new Stack();
-    this.frontier.push(this.startNode);
+    this.frontier = new Queue();
+    this.frontier.enqueue(this.startNode);
   }
 
   step() {
     if (this.frontier.isEmpty()) {
       this.data.currentState = null;
       return this.data;
-    };
-  
-    let node = this.frontier.pop();
+    }
+
+    let node = this.frontier.dequeue();
     this.data.currentState = { row: node.state.row, column: node.state.column };
-  
-    if (node.state.row === this.endState.row && node.state.column === this.endState.column) {   
+
+    if (node.state.row === this.endState.row && node.state.column === this.endState.column) {
       this.data.solution = this.getSolution(node);
       return this.data;
     }
-  
+
     this.explored.add(this.getExploredKey(node.state));
     this.addNeighborsToFrontier(node);
 
@@ -65,11 +67,11 @@ export default class DepthFirstSearch extends Algorithm {
     for (const [action, state] of Object.entries(neighbors)) {
       if (!this.frontier.containsState(state) && !this.explored.has(this.getExploredKey(state))) {
         const childNode = new Node(state, node, action);
-        this.frontier.push(childNode);
+        this.frontier.enqueue(childNode);
       }
     }
   }
-
+  
   getExploredKey(state) {
     return `${state.row},${state.column}`;
   }
@@ -79,12 +81,12 @@ export default class DepthFirstSearch extends Algorithm {
       top: null,
       right: null,
       bottom: null,
-      left: null
-    }
+      left: null,
+    } 
     
     const { row, column } = node.state;
 
-    if (row > 0) neighbors.top = {row: row - 1, column: column};  
+    if (row > 0) neighbors.top = {row: row - 1, column: column};
     if (row < this.board.length - 1) neighbors.bottom = {row: row + 1, column: column};
     if (column > 0) neighbors.left = {row: row, column: column - 1};
     if (column < this.board[row].length - 1) neighbors.right = {row: row, column: column + 1};
