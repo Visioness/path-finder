@@ -287,4 +287,30 @@ export default class Board {
     document.addEventListener('mousemove', this.dragHandlers.documentMouseMove);
     document.addEventListener('mouseup', this.dragHandlers.documentMouseUp);
   }
+
+  handleWallCreation() {
+    let lastMove = null;
+
+    this.elements.container.addEventListener('mousedown', (event) => {
+      const target = event.target;
+      if (target.classList.contains('cell') && !target.hasChildNodes()) {
+        this.isDrawingWall = true;
+      }
+    });
+
+    this.elements.container.addEventListener('mousemove', (event) => {
+      const target = event.target;
+      if (this.isDrawingWall && target.classList.contains('cell') && lastMove !== target) {
+        if (lastMove !== target) {
+          target.classList.toggle('wall');
+          target.classList.toggle('shadow');
+          lastMove = target;
+        }
+      }
+    });
+
+    this.elements.container.addEventListener('mouseup', () => {
+      this.isDrawingWall = false;
+    });
+  }
 }

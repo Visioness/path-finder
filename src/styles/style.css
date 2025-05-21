@@ -14,6 +14,7 @@
   --glimmer: #bb8b75;
   --shadow: #1d1d1d;
   --glight: #6c82aa;
+  --wall: #423422;
 
   --darkness: #191a1d;
 }
@@ -160,6 +161,10 @@ main {
   background-color: var(--hotl);
 }
 
+#color-wall {
+  background-color: var(--wall);
+}
+
 #color-shadow {
   background-color: var(--shadow);
 }
@@ -207,6 +212,20 @@ main {
   transform: translate(-50%, -50%);
   background-color: var(--shadow);
   z-index: 0;
+}
+
+.cell.wall::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%) scale(0);
+  background-color: var(--wall);
+  border: 2px solid var(--border-secondary);
+  animation: scale-up 0.4s linear forwards;
+  z-index: 1;
 }
 
 .cell.glimmer::after {

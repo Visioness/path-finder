@@ -19,6 +19,7 @@ export default class Controller {
   setup() {
     this.view.setup();
     this.createBoard();
+    this.view.handleWallCreation();
 
     this.handleClicks();
     this.view.handleDrag((elementType, newRow, newColumn) => {
