@@ -16,6 +16,7 @@ export default class Board {
     this.elements.delay = this.elements.form.querySelector('#delay');
     this.elements.algorithm = this.elements.form.querySelector('#algorithms');
     this.elements.board.addEventListener('animationend', this.changeCellState.bind(this));
+    this.handleWallCreation();
   }
 
   setup() {
@@ -291,14 +292,14 @@ export default class Board {
   handleWallCreation() {
     let lastMove = null;
 
-    this.elements.container.addEventListener('mousedown', (event) => {
+    this.elements.board.addEventListener('mousedown', (event) => {
       const target = event.target;
       if (target.classList.contains('cell') && !target.hasChildNodes()) {
         this.isDrawingWall = true;
       }
     });
 
-    this.elements.container.addEventListener('mousemove', (event) => {
+    this.elements.board.addEventListener('mousemove', (event) => {
       const target = event.target;
       if (this.isDrawingWall && target.classList.contains('cell') && lastMove !== target) {
         if (lastMove !== target) {
@@ -309,8 +310,19 @@ export default class Board {
       }
     });
 
-    this.elements.container.addEventListener('mouseup', () => {
+    this.elements.board.addEventListener('mouseup', () => {
       this.isDrawingWall = false;
     });
+  }
+
+  getWallPositions() {
+    const wallPositions = [];
+    this.elements.board.querySelectorAll('.wall').forEach((wall) => {
+      const row = parseInt(wall.dataset.row);
+      const column = parseInt(wall.dataset.column);
+      wallPositions.push([row, column]);
+    });
+
+    return wallPositions;
   }
 }

@@ -1,5 +1,5 @@
-import Algorithm from "./model.js";
-import { Node, Stack } from "./util.js";
+import Algorithm from './model.js';
+import { Node, Stack } from './util.js';
 
 export default class DepthFirstSearch extends Algorithm {
   constructor(config) {
@@ -9,12 +9,12 @@ export default class DepthFirstSearch extends Algorithm {
     this.startNode = new Node(start, null, null);
     this.endState = end;
   }
-  
+
   initialize() {
     this.data = {
       currentState: null,
       solution: null,
-    }
+    };
     this.explored = new Set();
     this.frontier = new Stack();
     this.frontier.push(this.startNode);
@@ -24,16 +24,16 @@ export default class DepthFirstSearch extends Algorithm {
     if (this.frontier.isEmpty()) {
       this.data.currentState = null;
       return this.data;
-    };
-  
+    }
+
     let node = this.frontier.pop();
     this.data.currentState = { row: node.state.row, column: node.state.column };
-  
-    if (node.state.row === this.endState.row && node.state.column === this.endState.column) {   
+
+    if (node.state.row === this.endState.row && node.state.column === this.endState.column) {
       this.data.solution = this.getSolution(node);
       return this.data;
     }
-  
+
     this.explored.add(this.getExploredKey(node.state));
     this.addNeighborsToFrontier(node);
 
@@ -79,15 +79,23 @@ export default class DepthFirstSearch extends Algorithm {
       top: null,
       right: null,
       bottom: null,
-      left: null
-    }
-    
+      left: null,
+    };
+
     const { row, column } = node.state;
 
-    if (row > 0) neighbors.top = {row: row - 1, column: column};  
-    if (row < this.board.length - 1) neighbors.bottom = {row: row + 1, column: column};
-    if (column > 0) neighbors.left = {row: row, column: column - 1};
-    if (column < this.board[row].length - 1) neighbors.right = {row: row, column: column + 1};
+    if (row > 0 && this.board[row - 1][column] !== 'wall') {
+      neighbors.top = { row: row - 1, column: column };
+    }
+    if (row < this.board.length - 1 && this.board[row + 1][column] !== 'wall') {
+      neighbors.bottom = { row: row + 1, column: column };
+    }
+    if (column > 0 && this.board[row][column - 1] !== 'wall') {
+      neighbors.left = { row: row, column: column - 1 };
+    }
+    if (column < this.board[row].length - 1 && this.board[row][column + 1] !== 'wall') {
+      neighbors.right = { row: row, column: column + 1 };
+    }
 
     return Object.fromEntries(
       Object.entries(neighbors).filter(([action, state]) => state !== null)

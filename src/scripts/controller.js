@@ -19,7 +19,6 @@ export default class Controller {
   setup() {
     this.view.setup();
     this.createBoard();
-    this.view.handleWallCreation();
 
     this.handleClicks();
     this.view.handleDrag((elementType, newRow, newColumn) => {
@@ -124,6 +123,7 @@ export default class Controller {
     this.view.updateUIState(this.started, this.paused, this.finished);
     this.algorithm = this.createPathFinder();
     this.algorithm.initialize();
+    this.applyWalls();
     this.runAlgorithm();
   }
 
@@ -135,6 +135,7 @@ export default class Controller {
       this.view.updateUIState(this.started, this.paused, this.finished);
       this.algorithm = this.createPathFinder();
       this.algorithm.initialize();
+      this.applyWalls();
     }
 
     if (!this.finished) {
@@ -179,6 +180,13 @@ export default class Controller {
       this.endRow = newRow;
       this.endColumn = newColumn;
       this.board[this.endRow][this.endColumn] = 'hotl';
+    }
+  }
+
+  applyWalls() {
+    const wallPositions = this.view.getWallPositions();
+    for (const [row, column] of wallPositions) {
+      this.board[row][column] = 'wall';
     }
   }
 }

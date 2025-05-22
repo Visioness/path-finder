@@ -1,12 +1,11 @@
-import Algorithm from "./model.js";
-import { Node, Queue } from "./util.js";
-
+import Algorithm from './model.js';
+import { Node, Queue } from './util.js';
 
 export default class BreadthFirstSearch extends Algorithm {
   constructor(config) {
     super(config);
     const { start, end } = config;
-    
+
     this.startNode = new Node(start, null, null);
     this.endState = end;
   }
@@ -15,8 +14,8 @@ export default class BreadthFirstSearch extends Algorithm {
     this.data = {
       currentState: null,
       solution: null,
-    }
-   
+    };
+
     this.explored = new Set();
     this.frontier = new Queue();
     this.frontier.enqueue(this.startNode);
@@ -71,7 +70,7 @@ export default class BreadthFirstSearch extends Algorithm {
       }
     }
   }
-  
+
   getExploredKey(state) {
     return `${state.row},${state.column}`;
   }
@@ -82,14 +81,22 @@ export default class BreadthFirstSearch extends Algorithm {
       right: null,
       bottom: null,
       left: null,
-    } 
-    
+    };
+
     const { row, column } = node.state;
 
-    if (row > 0) neighbors.top = {row: row - 1, column: column};
-    if (row < this.board.length - 1) neighbors.bottom = {row: row + 1, column: column};
-    if (column > 0) neighbors.left = {row: row, column: column - 1};
-    if (column < this.board[row].length - 1) neighbors.right = {row: row, column: column + 1};
+    if (row > 0 && this.board[row - 1][column] !== 'wall') {
+      neighbors.top = { row: row - 1, column: column };
+    }
+    if (row < this.board.length - 1 && this.board[row + 1][column] !== 'wall') {
+      neighbors.bottom = { row: row + 1, column: column };
+    }
+    if (column > 0 && this.board[row][column - 1] !== 'wall') {
+      neighbors.left = { row: row, column: column - 1 };
+    }
+    if (column < this.board[row].length - 1 && this.board[row][column + 1] !== 'wall') {
+      neighbors.right = { row: row, column: column + 1 };
+    }
 
     return Object.fromEntries(
       Object.entries(neighbors).filter(([action, state]) => state !== null)
