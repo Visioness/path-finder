@@ -7,7 +7,7 @@ export default class Board {
     this.containerPadY = 20;
     this.containerPadX = 10;
     this.borderWidth = 2;
-    this.gap = 1;
+    this.gap = 0;
     this.elements = {};
     this.elements.cells = {};
     this.elements.container = document.querySelector('.container-board');
